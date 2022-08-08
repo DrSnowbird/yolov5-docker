@@ -273,3 +273,4 @@ fabric.properties
 **/*tmp/
 **/certificates/*.crt
 **/demo*.txt
+**/docker-compose.yml
