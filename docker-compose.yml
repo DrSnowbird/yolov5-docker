@@ -1,0 +1,71 @@
+version: '3.3' 
+
+services:
+  yolov5-docker:
+    container_name: yolov5-docker
+    image: openkbs/yolov5-docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #restart: always
+    env_file:
+      - ./.env
+    environment:
+      - CONTAINER_NAME=yolov5-docker
+      - USER_ID=${USER_ID:-1000}
+      - GROUP_ID=${GROUP_ID:-1000}
+      # - APP_HOME=${APP_HOME:-/home/developer/app}
+      # - APP_MAIN=${APP_MAIN:-setup.sh}
+      - DOCKER_HOST_IP=${DOCKER_HOST_IP:-192.168.0.124}
+      - DOCKER_HOST_NAME=${DOCKER_HOST_NAME:-aurora}
+      # ==== X11 Use only ====
+      #- DISPLAY=$DISPLAY
+      #- DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+      # ==== vnc/no-vnc ====
+      #- WINDOW_MANAGER=xfce 
+      #- VNC_RESOLUTION=1280x800 
+      #- VNC_PW=vncpassword 
+    volumes:
+      ## ==== Common mapping: ====
+      #- /etc/hosts:/etc/hosts
+      #- /dev/shm:/dev/shm
+      #- /tmp/.X11-unix:/tmp/.X11-unix
+      #- /var/run/docker.sock:/var/run/docker.sock
+      #- ./certificates:/home/developer/certificates
+      ## ==== Use $HOME/data-docker as base directory: ====
+      #- $HOME/data-docker/yolov5-docker/data:/home/developer/data
+      #- $HOME/data-docker/yolov5-docker/workspace:/home/developer/workspace
+      ## ==== Use current directory as for mapping Volumes: ====
+      ## (You need to manually create those child directory: ./data, ./workspace, and others)
+      #- ./data:/home/developer/data
+      #- ./workspace:/home/developer/workspace
+      ## ==== App's additional mapping Volumes: ====
+      - /mnt/user1/DATA/git-public/AI-ML/yolov5-docker/weights:/home/developer/app/weights
+      - /mnt/user1/DATA/git-public/AI-ML/yolov5-docker/images:/home/developer/app/images
+      - /mnt/user1/DATA/git-public/AI-ML/yolov5-docker/runs:/home/developer/app/runs
+      - /mnt/user1/DATA/git-public/AI-ML/yolov5-docker/customized:/home/developer/app/customized
+      - /mnt/user1/DATA/git-public/AI-ML/yolov5-docker/workspace:/home/developer/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    ## -------------------------------
+    ## -- Change to your specific port
+    ## -------------------------------
+    # ports:
+    #   - "12345:12345"
+
+    ## -----------------------------
+    ## -- Network setup if needed --
+    ## -----------------------------
+    # networks:
+    #  - dev_network
+
+#volumes:
+#    yolov5-docker_volume:
+#        external: false
+
+#networks:
+#  dev_network:
+#    external:
+#      name: dev_network
+
+
