@@ -140,7 +140,8 @@ set -x
 #     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
 
 # Performance: GPU about 10~100 times faster than CPU:
-python detect.py --source ${SOURCE_IMAGES} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
+python detect.py --source ${SOURCE_IMAGES} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf \
+           --project='../runs/detect'
 # CPU
 #python detect.py --source ${SOURCE_IMAGES} --device cpu --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
 
