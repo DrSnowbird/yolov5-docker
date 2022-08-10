@@ -1,18 +1,30 @@
-#!/bin/bash
+#!/bin/bash -x
 
 echo "------------------------------------------------"
-echo "---- 1. CUSTIMIZED: SCRIPTS: DETECT: setup: ----"
+echo "---- 0. CUSTOMIZED: SCRIPTS: DETECT: setup: ----"
 echo "------------------------------------------------"
 CUSTOMIZED_DETECT_BASH=${CUSTOMIZED_DETECT_BASH:-./customized/run-detect.sh}
 if [ -s ${CUSTOMIZED_DETECT_BASH} ]; then
     echo "Found customized run-detect.sh found, use it instead of this..."
-    #cd ./customized
-    #./run-detect.sh
     ${CUSTOMIZED_DETECT_BASH} "$@"
     exit 0
 else
     echo "... NOT FOUND: './customized/run-detect.sh' script found -- USE Demo script: './run-detect.sh' ..."
 fi
+
+echo "-------------------------------------------"
+echo "---- 1) APP: GIT: Source code:  setup: ----"
+echo "-------------------------------------------"
+APP_HOME=${APP_HOME:-./app}
+if [ ! -s app ]; then
+    mdkir -p ${APP_HOME}
+fi
+
+if [ ! -s app/.git ]; then
+    git clone https://github.com/ultralytics/yolov5.git ${APP_HOME}
+fi
+
+cd ${APP_HOME}
 
 echo "-------------------------------------------"
 echo "---- 2. INPUT: WEIGHTS: FOLDER: setup: ----"
@@ -38,9 +50,8 @@ echo "INPUT: OUPUT: CONFIDENCE: ${CONFIDENCE}"
 echo "------------------------------------------"
 echo "---- 4. INPUT: IMAGES: FOLDER: setup: ----"
 echo "------------------------------------------"
-echo ">>>> INPUT: IMAGES: FOLDER: ${SOURCE_IMAGES}"
-echo ".... INPUT: IMAGES: CHECK: Any files in it? ...."
-MY_SOURCE_IMAGES=${SOURCE_IMAGES}
+SOURCE_IMAGES=${SOURCE_IMAGES:-${APP_HOME}/images}
+echo ".... INPUT: IMAGES: CHECK: Any files in ${SOURCE_IMAGES}? ...."
 if [ -n "$(ls -A ${SOURCE_IMAGES} 2>/dev/null)" ]; then
    echo ".... INPUT: IMAGES: FOUND: ${SOURCE_IMAGES}: Not empty: OK to use."
 else

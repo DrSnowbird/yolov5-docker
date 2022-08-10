@@ -172,17 +172,17 @@ for f in $files; do
     # Template file name should be .env.template or docker-compose.yml.template:
     # So, the trailing ".template" will be removed to be used to generate the target file.
     target_filename=${f%%.template} # docker-compose.yml
-    if [ -s  ]; then
-        if [ ! -d ${target_filename}.BACKUP ]; then
-            mkdir -p ${target_filename}.BACKUP
-        fi
-        if [ -s ${target_filename} ]; then
-            cp ${CP_OPTION} ${target_filename} ${target_filename}.BACKUP/
-            echo "... Old ${target_filename} file is save to: ${target_filename}.BACKUP/"
-        fi
+    #if [ -s  ]; then
+        #if [ ! -d ${target_filename}.BACKUP ]; then
+        #    mkdir -p ${target_filename}.BACKUP
+        #fi
+        #if [ -s ${target_filename} ]; then
+            #cp ${CP_OPTION} ${target_filename} ${target_filename}.BACKUP/
+            #echo "... Old ${target_filename} file is save to: ${target_filename}.BACKUP/"
+        #fi
         #mv ${target_filename} ${target_filename}.BACKUP/${target_filename}_$(date '+%F').SAVE
         # echo "... Old ${target_filename} file is save to: ${target_filename}_$(date '+%F').SAVE"
-    fi
+    #fi
     mv ${AUTO_GEN_FILE} ${target_filename}
 done
 

@@ -41,6 +41,8 @@ services:
       #- ./workspace:/home/developer/workspace
       ## ==== App's additional mapping Volumes: ====
       #{{MORE_VOLUMES_MAPPING}}
+    links:
+      - yolov5-mongo
     ## -------------------------------
     ## -- Change to your specific port
     ## -------------------------------
@@ -52,6 +54,66 @@ services:
     ## -----------------------------
     # networks:
     #  - dev_network
+
+  yolov5-fileserver:
+    image: openkbs/jetty-fileserver
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
+    container_name: yolov5-fileserver
+    restart: always
+    environment:
+      - USER_ID=${USER_ID:-1000}
+      - GROUP_ID=${GROUP_ID:-1000}
+    env_file:
+      - .env
+    ports:
+      - 18884:8080
+    volumes:
+      - ./runs:/home/developer/jetty_base
+
+  yolov5-mongo:
+    image: mongo:latest
+    container_name: yolov5-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: mongoadmin
+      MONGODB_AUTH_DATABASE: admin
+    ports:
+      - 27047:27017
+    #command: --smallfiles 
+    volumes:
+      - type: volume
+        source: yolov5-mongodb_data_volume
+        target: /data/db
+
+
+  yolov5-mongo-express:
+    image: mongo-express
+    container_name: yolov5-mongo-express
+    restart: always
+    ports:
+      - "28084:8081"
+    environment:
+      ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+      ME_CONFIG_MONGODB_SERVER: yolov5-mongo
+      ME_CONFIG_MONGODB_PORT: "27017"
+      #ME_CONFIG_BASICAUTH_USERNAME: admin
+      #ME_CONFIG_BASICAUTH_PASSWORD: changeme
+      #ME_CONFIG_MONGODB_AUTH_DATABASE: admin
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: mongoadmin
+      # ME_CONFIG_MONGODB_URL: mongodb://mongoadmin:mongoadmin@yolov5-mongo:27047/
+      ME_CONFIG_MONGODB_URL: mongodb://mongoadmin:mongoadmin@{{DOCKER_HOST_IP}}:27047/
+    depends_on:
+      - yolov5-mongo
+    links:
+      - yolov5-mongo
+
+volumes:
+  yolov5-mongodb_data_volume:
+    # driver: local 
 
 #volumes:
 #    {{CONTAINER_NAME}}_volume:

@@ -27,6 +27,7 @@ RUN python -u -m pip install --upgrade pip
 RUN sudo chown -R $USER:$USER ${APP_HOME}
 RUN git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
 RUN if [ -s ${APP_HOME}/requirements.txt ]; then \
+        python -m pip install --upgrade pip ; \
         pip install --no-cache-dir --user -r ${APP_HOME}/requirements.txt ; \
     fi; 
 
@@ -47,6 +48,11 @@ USER ${USER}
 #############################################
 #### (you customization code here!) #########
 COPY --chown=$USER:$USER run-detect.sh ${APP_HOME}
+COPY --chown=$USER:$USER ./requirements.txt ${HOME}
+RUN if [ -s ${HOME}/requirements.txt ]; then \
+        pip install --no-cache-dir --user -r ${HOME}/requirements.txt ; \
+    fi; 
+
 
 # Default run-detect.sh (It will detect the existence of ./customized/run-detect.sh, then run it instead)
 #CMD ["/usr/src/app/run-detect.sh"]
