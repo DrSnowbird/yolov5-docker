@@ -55,7 +55,7 @@ sudo docker-compose up -d yolov5-fileserver
 ```
 You can use any Web-browsers to view the results folders, "./runs":
 ```
-http://0.0.0.0:28282/jetty_base/
+http://0.0.0.0:28082/jetty_base/
 ```
 You can see the [sample Web page](https://github.com/DrSnowbird/yolov5-docker/blob/master/doc/yolov5-fileserver.png) in
 ```
@@ -84,23 +84,6 @@ It will first call ./run-detect.sh (default) which, in turns, it will run your .
     │   ├── labels
     │   └── zidane.jpg
 ```
-
-# Proxy & Certificate Setup
-* [Setup System and Browsers Root Certificate](https://thomas-leister.de/en/how-to-import-ca-root-certificate/)
-
-# Corporate Proxy Root and Intemediate Certificates setup for System and Web Browsers (FireFox, Chrome, etc)
-1. Save your corporate's Certificates in the currnet GIT directory, `./certificates`
-First, you need to get your corporate's proxy certificates. You may want to get from your Network/IT department to download the certificate(s), e..g, my_company.crt and then put it in the `./certificates`. The automation script in Dockefile will detect the existence of such certificate files and then automatically load them into the Container images being built in progress.
-2. During Docker run command, 
-```
-   -v `pwd`/certificates:/certificates ... (the rest parameters)
-```
-If you want to map to different directory for certificates, e.g., /home/developer/certificates, then
-```
-   -v `pwd`/certificates:/home/developer/certificates -e SOURCE_CERTIFICATES_DIR=/home/developer/certificates ... (the rest parameters)
-```
-3. And, inside the Docker startup script to invoke the `~/scripts/setup_system_certificates.sh`. Note that the script assumes the certficates are in `/certificates` directory.
-4. The script `~/scripts/setup_system_certificates.sh` will automatic copy to target directory and setup certificates for both System commands (wget, curl, etc) to use and Web Browsers'.
 
 ----
 # (Inherited from upstream)
