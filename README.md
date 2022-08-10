@@ -40,7 +40,15 @@ SOURCE_IMAGES=./my_images
 
 3. If none of above has images files found, it will abort.
 
+## (Optional) Database, DB-GUI, and File Servers
+- MongoDB: NoSQL database server for storing labeled information.
+- Mongo-Expression: GUI for managing MongoDb server.
+- Ftp-File-Server: Web-based file sharing to all users remotely to see the results files, e.g., 'runs/expect02'
 
+Here is the command to start all the above servers
+```
+make up
+```
 ## Shell into Container
 ```
 ./run.sh bash
