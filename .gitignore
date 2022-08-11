@@ -275,3 +275,8 @@ fabric.properties
 **/demo*.txt
 **/app/
 **/docker-compose.yml
+
+**/*.tar.gz
+**/*.tar.xz
+**/*.tgz
+**/weights/

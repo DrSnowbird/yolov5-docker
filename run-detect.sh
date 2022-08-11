@@ -26,6 +26,49 @@ fi
 
 cd ${APP_HOME}
 
+echo "------------------------------------------------"
+echo "---- 1. GPU: DETECT: setup:                 ----"
+echo "------------------------------------------------"
+
+IS_TO_RUN_CPU=0
+IS_TO_RUN_GPU=1
+GPU_OPTION="--device cpu"
+PARAMS=""
+while (( "$#" )); do
+  case "$1" in
+    -c|--cpu)
+      IS_TO_RUN_CPU=1
+      IS_TO_RUN_GPU=0
+      GPU_OPTION="--device cpu"
+      shift
+      ;;
+    -g|--gpu)
+      IS_TO_RUN_CPU=0
+      IS_TO_RUN_GPU=1
+      GPU_OPTION="--device cuda:all"
+      shift
+      ;;
+    -*|--*=) # unsupported flags
+      echo "Error: Unsupported flag $1" >&2
+      exit 1
+      ;;
+    *) # preserve positional arguments
+      PARAMS="$PARAMS $1"
+      shift
+      ;;
+  esac
+done
+# set positional arguments in their proper place
+eval set -- "$PARAMS"
+
+echo "-c (IS_TO_RUN_CPU): $IS_TO_RUN_CPU"
+echo "-g (IS_TO_RUN_GPU): $IS_TO_RUN_GPU"
+
+echo "remiaing args:"
+echo $*
+
+echo ">>>> GPU_OPTION=${GPU_OPTION}"
+
 echo "-------------------------------------------"
 echo "---- 2. INPUT: WEIGHTS: FOLDER: setup: ----"
 echo "-------------------------------------------"
@@ -66,7 +109,7 @@ else
         if [ -n "$(ls -A ./data/images 2>/dev/null)" ]; then
             echo ">>>> INPUT: IMAGES: FOUND: ${SOURCE_IMAGES}: Not empty: OK to use."
         else
-            echo "**** ERROR: Can't find any images files in: ${MY_SOURCE_IMAGES}, './images', or './data/images' folders! ABORT!"
+            echo "**** ERROR: Can't find any images files in: ${SOURCE_IMAGES}, './images', or './data/images' folders! ABORT!"
             exit 1
         fi
     fi
@@ -140,10 +183,10 @@ set -x
 #     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
 
 # Performance: GPU about 10~100 times faster than CPU:
-python detect.py --source ${SOURCE_IMAGES} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf \
-           --project='../runs/detect'
 # CPU
 #python detect.py --source ${SOURCE_IMAGES} --device cpu --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
+# GPU
+python detect.py --source ${SOURCE_IMAGES} ${GPU_OPTION} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
 
 # JSON - not works (to-do: modify detect.py to support JSON)
 #python detect.py --source ${SOURCE_IMAGES} --weights ${WEIGHTS} --conf ${CONFIDENCE} --save-json
