@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 echo "------------------------------------------------"
 echo "---- 0. CUSTOMIZED: SCRIPTS: DETECT: setup: ----"
@@ -106,15 +106,15 @@ else
     else
         echo ".... INPUT: IMAGES: NOT FOUND: ./images ! Use the 2nd alternative folder: ./data/images/ (if not empty)" 
         SOURCE_IMAGES=./data/images
-        if [ -n "$(ls -A ./data/images 2>/dev/null)" ]; then
-            echo ">>>> INPUT: IMAGES: FOUND: ${SOURCE_IMAGES}: Not empty: OK to use."
-        else
-            echo "**** ERROR: Can't find any images files in: ${SOURCE_IMAGES}, './images', or './data/images' folders! ABORT!"
-            exit 1
-        fi
     fi
 fi
 echo "INPUT: IMAGES: FOLDER:: ${SOURCE_IMAGES}"
+if [ -n "$(ls -A ${SOURCE_IMAGES} 2>/dev/null)" ]; then
+   echo ">>>> INPUT: IMAGES: FOUND: ${SOURCE_IMAGES}: Not empty: OK to use."
+else
+   echo "**** ERROR: Can't find any images files in: ${SOURCE_IMAGES}, './images', or './data/images' folders! ABORT!"
+   exit 1
+fi
 
 echo "----------------------------------------"
 echo "---- 5. OUTPUT: RUN: FOLDER: setup: ----"

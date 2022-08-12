@@ -22,7 +22,7 @@ It will download 'yolov5s.pt' on-the-fly to use if not existing.
 
 ## Images (Input folders)
 Input images folders following the sequence of checking (for not empty)
-1. '.env' file to setup 'INPUT images folder' (not recursive by Yolov5 as default): 
+1. '.env' file to setup 'INPUT images folder':
 ```
 SOURCE_IMAGES=./images
 ```
