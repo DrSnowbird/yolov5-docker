@@ -120,7 +120,8 @@ echo "INPUT: OUPUT: CONFIDENCE: ${CONFIDENCE}"
 echo "------------------------------------------"
 echo "---- 4. INPUT: IMAGES: FOLDER: setup: ----"
 echo "------------------------------------------"
-SOURCE_IMAGES=${SOURCE_IMAGES:-${APP_HOME}/images}
+#SOURCE_IMAGES=${SOURCE_IMAGES:-${APP_HOME}/images}
+SOURCE_IMAGES=${SOURCE_IMAGES:-${PROJ_DIR}/images}
 echo ".... INPUT: IMAGES: CHECK: Any files in ${SOURCE_IMAGES}? ...."
 if [ -n "$(ls -A ${SOURCE_IMAGES} 2>/dev/null)" ]; then
    echo ".... INPUT: IMAGES: FOUND: ${SOURCE_IMAGES}: Not empty: OK to use."
