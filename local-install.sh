@@ -1,11 +1,17 @@
-#!/bin/bash -x
+#!/bin/bash 
+
+echo "-------------------------------------------"
+echo "---- 0.A) Upgrade Python PIP:          ----"
+echo "-------------------------------------------"
+echo 
+python -m pip install --upgrade pip
 
 PROJ_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 echo "#### >>>> $0: PROJ_DIR: ${PROJ_DIR}"
 
 echo "-------------------------------------------"
-echo "---- 0.B) APP: GIT: Source code:  setup: ----"
+echo "---- 0.B) APP: GIT: Source code:setup: ----"
 echo "-------------------------------------------"
 APP_HOME=${APP_HOME:-${PROJ_DIR}/app}
 if [ ! -s ${APP_HOME} ]; then
