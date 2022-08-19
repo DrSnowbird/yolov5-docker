@@ -90,7 +90,9 @@ pull:
 		docker pull $(REGISTRY_IMAGE):$(VERSION) ; \
 	fi
 
-
+install:
+	./local-install.sh
+	
 up:
 	bin/auto-config-all.sh
 	docker-compose up --remove-orphans -d yolov5-fileserver yolov5-mongo yolov5-mongo-express
