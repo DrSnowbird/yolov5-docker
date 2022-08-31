@@ -50,13 +50,14 @@ if [ ${DOCKER_RUN} -lt 1 ]; then
     echo 
     echo -e ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> Customized Install requirements: >>>>>>>>>>>>>>>>>>>>>>>>>>>>> "
     echo
+    pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
     if [ -s ${PROJ_DIR}/requirements.txt ]; then
-        pip install -r ${PROJ_DIR}/requirements.txt
+        pip3 install -r ${PROJ_DIR}/requirements.txt
     fi
     if [ -s ${APP_HOME}/requirements.txt ]; then
-        pip install -r ${APP_HOME}/requirements.txt
+        pip3 install -r ${APP_HOME}/requirements.txt
     fi
     if [ -s ${APP_HOME}/customized/requirements.txt ]; then
-        pip install -r ${APP_HOME}/customized/requirements.txt
+        pip3 install -r ${APP_HOME}/customized/requirements.txt
     fi
 fi

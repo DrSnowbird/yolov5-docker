@@ -1,0 +1,21 @@
+(yolov5-tmp1) user1@aurora:/mnt/user1/DATA/git-public/AI-ML/yolov5-docker/tmp/tmp1/yolov5-docker$ pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
+Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cu116
+Collecting torch
+  Downloading https://download.pytorch.org/whl/cu116/torch-1.12.1%2Bcu116-cp38-cp38-linux_x86_64.whl (1904.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.9/1.9 GB 511.1 kB/s eta 0:00:00
+Collecting torchvision
+  Downloading https://download.pytorch.org/whl/cu116/torchvision-0.13.1%2Bcu116-cp38-cp38-linux_x86_64.whl (23.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 23.5/23.5 MB 22.3 MB/s eta 0:00:00
+Collecting torchaudio
+  Using cached https://download.pytorch.org/whl/cu116/torchaudio-0.12.1%2Bcu116-cp38-cp38-linux_x86_64.whl (3.8 MB)
+Requirement already satisfied: typing-extensions in /mnt/user1/DATA/Envs/yolov5-tmp1/lib/python3.8/site-packages (from torch) (4.3.0)
+Requirement already satisfied: numpy in /mnt/user1/DATA/Envs/yolov5-tmp1/lib/python3.8/site-packages (from torchvision) (1.23.2)
+Requirement already satisfied: requests in /mnt/user1/DATA/Envs/yolov5-tmp1/lib/python3.8/site-packages (from torchvision) (2.28.1)
+Requirement already satisfied: pillow!=8.3.*,>=5.3.0 in /mnt/user1/DATA/Envs/yolov5-tmp1/lib/python3.8/site-packages (from torchvision) (9.2.0)
+Requirement already satisfied: charset-normalizer<3,>=2 in /mnt/user1/DATA/Envs/yolov5-tmp1/lib/python3.8/site-packages (from requests->torchvision) (2.1.1)
+Requirement already satisfied: idna<4,>=2.5 in /mnt/user1/DATA/Envs/yolov5-tmp1/lib/python3.8/site-packages (from requests->torchvision) (3.3)
+Requirement already satisfied: certifi>=2017.4.17 in /mnt/user1/DATA/Envs/yolov5-tmp1/lib/python3.8/site-packages (from requests->torchvision) (2022.6.15)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /mnt/user1/DATA/Envs/yolov5-tmp1/lib/python3.8/site-packages (from requests->torchvision) (1.26.12)
+Installing collected packages: torch, torchvision, torchaudio
+Successfully installed torch-1.12.1+cu116 torchaudio-0.12.1+cu116 torchvision-0.13.1+cu116
+

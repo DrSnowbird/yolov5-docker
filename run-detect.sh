@@ -49,10 +49,10 @@ echo
 YOLO_GIT=${YOLO_GIT:-https://github.com/DrSnowbird/yolov5.git}
 #YOLO_GIT=${YOLO_GIT:-https://github.com/ultralytics/yolov5.git}
 
-if [ ! -s ${APP_HOME}/.git ]; then
-    echo -e "#### >>>>  YOLO_GIT= ${YOLO_GIT}"
-    git clone ${YOLO_GIT} ${APP_HOME}
-    pip install -r ${APP_HOME}/requirements.txt 
+#if [ ! -s ${APP_HOME}/.git ]; then
+#    echo -e "#### >>>>  YOLO_GIT= ${YOLO_GIT}"
+#    git clone ${YOLO_GIT} ${APP_HOME}
+#    pip install -r ${APP_HOME}/requirements.txt 
 fi
 if [ ${DOCKER_RUN} -lt 1 ]; then
   
@@ -233,13 +233,7 @@ set -x
 #     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
 
 # Performance: GPU about 10~100 times faster than CPU:
-# CPU
-#python detect.py --source ${SOURCE_IMAGES} --device cpu --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
-# GPU
 python detect.py --source ${SOURCE_IMAGES} ${GPU_OPTION} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
-
-# JSON - not works (to-do: modify detect.py to support JSON)
-#python detect.py --source ${SOURCE_IMAGES} --weights ${WEIGHTS} --conf ${CONFIDENCE} --save-json
 
 set +x
 
