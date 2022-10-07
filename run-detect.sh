@@ -53,7 +53,7 @@ YOLO_GIT=${YOLO_GIT:-https://github.com/DrSnowbird/yolov5.git}
 #    echo -e "#### >>>>  YOLO_GIT= ${YOLO_GIT}"
 #    git clone ${YOLO_GIT} ${APP_HOME}
 #    pip install -r ${APP_HOME}/requirements.txt 
-fi
+#fi
 if [ ${DOCKER_RUN} -lt 1 ]; then
   
     if [ ! -s ${APP_HOME}/.git ]; then
