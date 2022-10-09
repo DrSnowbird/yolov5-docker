@@ -172,7 +172,7 @@ for f in $files; do
     # Template file name should be .env.template or docker-compose.yml.template:
     # So, the trailing ".template" will be removed to be used to generate the target file.
     target_filename=${f%%.template} # docker-compose.yml
-    #if [ -s  ]; then
+    #if [ -s ${target_filename} ]; then
         #if [ ! -d ${target_filename}.BACKUP ]; then
         #    mkdir -p ${target_filename}.BACKUP
         #fi
