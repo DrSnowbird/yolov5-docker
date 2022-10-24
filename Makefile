@@ -23,7 +23,8 @@ BASE_IMAGE := $(BASE_IMAGE)
 
 # The name of the container (default is current directory name)
 #DOCKER_NAME := $(shell echo $${PWD\#\#*/})
-DOCKER_NAME := $(shell echo $${PWD##*/}|tr '[:upper:]' '[:lower:]'|tr "/: " "_" )
+#DOCKER_NAME := $(shell echo $${PWD##*/}|tr '[:upper:]' '[:lower:]'|tr "/: " "_" )
+DOCKER_NAME := $(shell echo $${PWD\#\#*/}|tr '[:upper:]' '[:lower:]'|tr "/: " "_" )
 
 ORGANIZATION=$(shell echo $${ORGANIZATION:-openkbs})
 APP_VERSION=$(shell echo $${APP_VERSION:-latest})
