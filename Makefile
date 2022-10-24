@@ -2,7 +2,7 @@
 # login first (Registry: e.g., hub.docker.io, registry.localhost:5000, etc.)
 # a.)  docker login
 # or
-# b.) sudo docker login -p FpXM6Qy9vVL5kPeoefzxwA-oaYb-Wpej2iXTwV7UHYs -e unused -u unused docker-registry-default.openkbs.org
+# b.) docker login -p FpXM6Qy9vVL5kPeoefzxwA-oaYb-Wpej2iXTwV7UHYs -e unused -u unused docker-registry-default.openkbs.org
 # e.g. (using Openshift)
 #    oc process -f ./files/deployments/template.yml -v API_NAME=$(REGISTRY_IMAGE) > template.active
 #
