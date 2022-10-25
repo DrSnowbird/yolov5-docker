@@ -60,6 +60,7 @@ ENV PATH=${HOME}/.local/bin:${PATH}
 #### ---- App: (common) ---- ####
 #################################
 WORKDIR ${APP_HOME}
+RUN mkdir -p ${APP_HOME} && sudo chown -R $USER:$USER ${APP_HOME} && ls -al ${HOME} ${APP_HOME}
 RUN python -u -m pip install --upgrade pip
 
 ###############################
@@ -75,8 +76,8 @@ RUN if [ -s ${HOME}/requirements.txt ]; then \
         pip install --no-cache-dir --user -r ${HOME}/requirements.txt ; \
     fi; 
 
-COPY --chown=$USER:$USER app ${APP_HOME}
-#RUN git clone https://github.com/DrSnowbird/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
+#COPY --chown=$USER:$USER app ${APP_HOME}
+RUN git clone https://github.com/DrSnowbird/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
 #RUN git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
 RUN if [ -s ${APP_HOME}/requirements.txt ]; then \
         python -m pip install --upgrade pip ; \

@@ -22,9 +22,9 @@ BASE_IMAGE := $(BASE_IMAGE)
 #  cat -e -t -v Makefile
 
 # The name of the container (default is current directory name)
-#DOCKER_NAME := $(shell echo $${PWD\#\#*/})
-#DOCKER_NAME := $(shell echo $${PWD##*/}|tr '[:upper:]' '[:lower:]'|tr "/: " "_" )
-DOCKER_NAME := $(shell echo $${PWD\#\#*/}|tr '[:upper:]' '[:lower:]'|tr "/: " "_" )
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
+DOCKER_NAME := $(shell echo $(current_dir)|tr '[:upper:]' '[:lower:]'|tr "/: " "_" )
 
 ORGANIZATION=$(shell echo $${ORGANIZATION:-openkbs})
 APP_VERSION=$(shell echo $${APP_VERSION:-latest})
@@ -60,14 +60,17 @@ TIME_START := $(shell date +%s)
 
 .PHONY: clean rmi build push pull up down run stop exec
 
-clean:
-	echo $(DOCKER_NAME) $(DOCKER_IMAGE):$(VERSION) 
+debug:
+	echo "makefile_path="$(mkfile_path)
+	echo "current_dir="$(current_dir)
+	echo "DOCKER_NNAME="$(DOCKER_NAME) 
+	echo "DOCKER_IMAGE:VERSION="$(DOCKER_IMAGE):$(VERSION) 
 
 default: build
 
 build:
-	docker build \
-	-t $(DOCKER_IMAGE):$(VERSION) .
+	echo $(DOCKER_NAME) $(DOCKER_IMAGE)
+	docker build -t $(DOCKER_IMAGE):$(VERSION) .
 
 build-rm:
 	docker build --force-rm --no-cache \
