@@ -76,9 +76,12 @@ RUN if [ -s ${HOME}/requirements.txt ]; then \
         pip install --no-cache-dir --user -r ${HOME}/requirements.txt ; \
     fi; 
 
+## Option-1: static yolov5 code
 #COPY --chown=$USER:$USER app ${APP_HOME}
+## Option-2: on-demain yolov5 code
 RUN git clone https://github.com/DrSnowbird/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
 #RUN git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
+
 RUN if [ -s ${APP_HOME}/requirements.txt ]; then \
         python -m pip install --upgrade pip ; \
         pip3 install --no-cache-dir --user -r ${APP_HOME}/requirements.txt ; \

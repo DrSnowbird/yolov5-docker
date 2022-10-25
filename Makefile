@@ -61,15 +61,15 @@ TIME_START := $(shell date +%s)
 .PHONY: clean rmi build push pull up down run stop exec
 
 debug:
-	echo "makefile_path="$(mkfile_path)
-	echo "current_dir="$(current_dir)
-	echo "DOCKER_NNAME="$(DOCKER_NAME) 
-	echo "DOCKER_IMAGE:VERSION="$(DOCKER_IMAGE):$(VERSION) 
+	@echo "makefile_path="$(mkfile_path)
+	@echo "current_dir="$(current_dir)
+	@echo "DOCKER_NNAME="$(DOCKER_NAME) 
+	@echo "DOCKER_IMAGE:VERSION="$(DOCKER_IMAGE):$(VERSION) 
 
 default: build
 
 build:
-	echo $(DOCKER_NAME) $(DOCKER_IMAGE)
+	@echo $(DOCKER_NAME) $(DOCKER_IMAGE)
 	docker build -t $(DOCKER_IMAGE):$(VERSION) .
 
 build-rm:
