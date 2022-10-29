@@ -81,7 +81,8 @@ echo "------------------------------------------------"
 
 IS_TO_RUN_CPU=0
 IS_TO_RUN_GPU=1
-GPU_OPTION="--device cpu"
+#GPU_OPTION="--device cpu"
+GPU_OPTION=
 PARAMS=""
 while (( "$#" )); do
   case "$1" in
@@ -94,7 +95,9 @@ while (( "$#" )); do
     -g|--gpu)
       IS_TO_RUN_CPU=0
       IS_TO_RUN_GPU=1
-      GPU_OPTION="--device cuda:all"
+      #GPU_OPTION="--device cuda:all"
+      #GPU_OPTION="--device 0"
+      GPU_OPTION=
       shift
       ;;
     -*|--*=) # unsupported flags
