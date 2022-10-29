@@ -281,3 +281,4 @@ fabric.properties
 **/*.tgz
 **/weights/
 **/ABFG*.mp4
+**/*save*/

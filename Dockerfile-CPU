@@ -1,50 +1,10 @@
 # Start FROM Nvidia PyTorch image https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
-FROM nvcr.io/nvidia/pytorch:22.10-py3
+#FROM nvcr.io/nvidia/pytorch:22.06-py3
 #FROM python:3.8.8
-#FROM openkbs/python-nonroot-docker
-FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
+FROM openkbs/python-nonroot-docker
+#FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 
 MAINTAINER DrSnowbird "DrSnowbird@openkbs.org"
-
-##############################################
-#### ---- Installation Directories   ---- ####
-##############################################
-ENV INSTALL_DIR=${INSTALL_DIR:-/usr}
-ENV SCRIPT_DIR=${SCRIPT_DIR:-$INSTALL_DIR/scripts}
-
-############################################
-##### ---- System: certificates : ---- #####
-##### ---- Corporate Proxy      : ---- #####
-############################################
-COPY ./scripts ${SCRIPT_DIR}
-COPY certificates /certificates
-RUN ${SCRIPT_DIR}/setup_system_certificates.sh
-RUN ${SCRIPT_DIR}/setup_system_proxy.sh
-
-###################################
-#### ---- user: developer ---- ####
-###################################
-ENV USER_ID=${USER_ID:-1000}
-ENV GROUP_ID=${GROUP_ID:-1000}
-ENV USER=${USER:-developer}
-ENV HOME=/home/${USER}
-ENV WORKSPACE=${HOME}/workspace
-
-ENV LANG C.UTF-8
-RUN apt-get update && apt-get install -y --no-install-recommends sudo curl vim git ack wget unzip ca-certificates && \
-    useradd -ms /bin/bash ${USER} && \
-    export uid=${USER_ID} gid=${GROUP_ID} && \
-    mkdir -p /home/${USER} && \
-    mkdir -p /home/${USER}/workspace && \
-    mkdir -p /etc/sudoers.d && \
-    echo "${USER}:x:${USER_ID}:${GROUP_ID}:${USER},,,:/home/${USER}:/bin/bash" >> /etc/passwd && \
-    echo "${USER}:x:${USER_ID}:" >> /etc/group && \
-    echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER} && \
-    chmod 0440 /etc/sudoers.d/${USER} && \
-    chown -R ${USER}:${USER} /home/${USER} && \
-    apt-get autoremove; \
-    rm -rf /var/lib/apt/lists/* && \
-    echo "vm.max_map_count=262144" | tee -a /etc/sysctl.conf
 
 ###############################
 #### ---- App: (ENV)  ---- ####

@@ -46,6 +46,9 @@ echo
 echo "#### >>>> $0: CURR_DIR: `pwd`"
 echo
 
+############################################
+## ---- Yolo source GIT setup:       ---- ##
+############################################
 YOLO_GIT=${YOLO_GIT:-https://github.com/DrSnowbird/yolov5.git}
 #YOLO_GIT=${YOLO_GIT:-https://github.com/ultralytics/yolov5.git}
 
