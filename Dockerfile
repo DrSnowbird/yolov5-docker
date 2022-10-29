@@ -1,5 +1,5 @@
 # Start FROM Nvidia PyTorch image https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
-FROM nvcr.io/nvidia/pytorch:22.10-py3
+#FROM nvcr.io/nvidia/pytorch:22.10-py3
 #FROM python:3.8.8
 #FROM openkbs/python-nonroot-docker
 FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
