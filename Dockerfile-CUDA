@@ -1,8 +1,8 @@
 # Start FROM Nvidia PyTorch image https://ngc.nvidia.com/catalog/containers/nvidia:pytorch
 #FROM nvcr.io/nvidia/pytorch:22.10-py3
 #FROM python:3.8.8
-FROM openkbs/python-nonroot-docker
-#FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
+#FROM openkbs/python-nonroot-docker
+FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-runtime
 
 MAINTAINER DrSnowbird "DrSnowbird@openkbs.org"
 
@@ -21,6 +21,31 @@ COPY certificates /certificates
 RUN ${SCRIPT_DIR}/setup_system_certificates.sh
 RUN ${SCRIPT_DIR}/setup_system_proxy.sh
 
+###################################
+#### ---- user: developer ---- ####
+###################################
+ENV USER_ID=${USER_ID:-1000}
+ENV GROUP_ID=${GROUP_ID:-1000}
+ENV USER=${USER:-developer}
+ENV HOME=/home/${USER}
+ENV WORKSPACE=${HOME}/workspace
+
+ENV LANG C.UTF-8
+RUN apt-get update && apt-get install -y --no-install-recommends sudo curl vim git ack wget unzip ca-certificates && \
+    useradd -ms /bin/bash ${USER} && \
+    export uid=${USER_ID} gid=${GROUP_ID} && \
+    mkdir -p /home/${USER} && \
+    mkdir -p /home/${USER}/workspace && \
+    mkdir -p /etc/sudoers.d && \
+    echo "${USER}:x:${USER_ID}:${GROUP_ID}:${USER},,,:/home/${USER}:/bin/bash" >> /etc/passwd && \
+    echo "${USER}:x:${USER_ID}:" >> /etc/group && \
+    echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER} && \
+    chown -R ${USER}:${USER} /home/${USER} && \
+    apt-get autoremove; \
+    rm -rf /var/lib/apt/lists/* && \
+    echo "vm.max_map_count=262144" | tee -a /etc/sysctl.conf
+
 ###############################
 #### ---- App: (ENV)  ---- ####
 ###############################
@@ -28,9 +53,14 @@ USER ${USER:-developer}
 WORKDIR ${HOME:-/home/developer}
 
 ENV APP_HOME=${APP_HOME:-$HOME/app}
-ENV APP_MAIN=${APP_MAIN:-$HOME/setup.sh}
+ENV APP_MAIN=${APP_MAIN:-setup.sh}
 ENV PATH=${HOME}/.local/bin:${PATH}
 
+#################################
+#### ---- App: (common) ---- ####
+#################################
+WORKDIR ${APP_HOME}
+RUN mkdir -p ${APP_HOME} && sudo chown -R $USER:$USER ${APP_HOME} && ls -al ${HOME} ${APP_HOME}
 RUN python -u -m pip install --upgrade pip
 
 ###############################
@@ -45,14 +75,6 @@ COPY --chown=$USER:$USER ./requirements.txt ${HOME}
 RUN if [ -s ${HOME}/requirements.txt ]; then \
         pip install --no-cache-dir --user -r ${HOME}/requirements.txt ; \
     fi; 
-
-#################################
-#### ---- App: (common) ---- ####
-#################################
-RUN mkdir -p ${APP_HOME} && sudo chown -R $USER:$USER ${APP_HOME} && ls -al ${HOME} ${APP_HOME}
-RUN ls -al ${APP_HOME} && if [ -s ${APP_HOME} ]; then cp -r ${APP_HOME}/* ${HOME}/ ; fi && rm -f ${APP_HOME}/*
-RUN ls -al ${HOME}
-WORKDIR ${APP_HOME}
 
 ## Option-1: static yolov5 code
 #COPY --chown=$USER:$USER app ${APP_HOME}
