@@ -79,6 +79,8 @@ RUN if [ -s ${HOME}/requirements.txt ]; then \
 ## Option-1: static yolov5 code
 #COPY --chown=$USER:$USER app ${APP_HOME}
 ## Option-2: on-demain yolov5 code
+## (optional-not safe: disable GIT SSL VERIFY)
+# RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/DrSnowbird/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
 RUN git clone https://github.com/DrSnowbird/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
 #RUN git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
 
