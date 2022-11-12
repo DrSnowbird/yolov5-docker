@@ -1,5 +1,24 @@
 #!/bin/bash
 
+##############################################
+#### ---- GIT latest release:        ---- ####
+##############################################
+GIT_PATH=${GIT_PATH:-https://github.com/ultralytics/yolov5.git}
+tmp_git=${GIT_PATH%.git}
+# https://github.com/cdr/code-server.git
+# git@github.com:cdr/code-server.git
+REPO_NAME=${tmp_git#*github.com?}
+
+LATEST_VERSION=
+function get_latest_release() {
+    echo curl -k -sSL -silent https://github.com/${REPO_NAME}/releases/latest |grep "${COMPRESSED_FILE_TYPE}" |head -1|cut -d'"' -f2
+    tmp1=`curl -k -sSL -silent https://github.com/ultralytics/yolov5/releases/latest |grep releases|grep tree|cut -d'"' -f4|grep tree`
+    echo $tmp1
+    LATEST_VERSION=$(basename $tmp1)
+    echo "LATEST_VERSION= ${LATEST_VERSION}"
+}
+get_latest_release ${REPO_NAME}
+
 ################################################
 #### ---- reset owner back to the USER ---- ####
 ################################################
@@ -128,12 +147,13 @@ echo "-------------------------------------------"
 echo "---- 2. INPUT: WEIGHTS: FOLDER: setup: ----"
 echo "-------------------------------------------"
 echo ">>>> DEMO: using ${WEIGHTS_URL} Weights (trained model) ...."
-WEIGHTS_URL=${WEIGHTS_URL:-https://github.com/ultralytics/yolov5/releases/download/v6.1/yolov5s.pt} 
+#WEIGHTS_URL=${WEIGHTS_URL:-https://github.com/ultralytics/yolov5/releases/download/v6.2/yolov5s.pt} 
+WEIGHTS_URL=${WEIGHTS_URL:-https://github.com/ultralytics/yolov5/releases/download/${LATEST_VERSION}/yolov5s.pt} 
 WEIGHTS_DIRECTORY=./weights/
 WEIGHTS=${WEIGHTS_DIRECTORY}$(basename $WEIGHTS_URL) # yolov5s.pt
 if [ ! -s ${WEIGHTS} ]; then
     echo ">>>> DOWNLOAD: Yolo pre-trained Model weights-and-bias: ${WEIGHTS_URL}"
-    wget -c -P ${WEIGHTS_DIRECTORY} ${WEIGHTS_URL}
+    wget --no-check-certificate -c -P ${WEIGHTS_DIRECTORY} ${WEIGHTS_URL}
 else
     echo ">>>> FOUND: Yolo pre-trained Model weights-and-bias: ${WEIGHTS}"
 fi
@@ -191,7 +211,7 @@ set -x
 # Run inference on images, videos, directories, streams, etc.
 #
 # Usage - sources:
-#     $ python path/to/detect.py --weights yolov5s.pt --source 0              # webcam
+#     $ python3 path/to/detect.py --weights yolov5s.pt --source 0              # webcam
 #                                                              img.jpg        # image
 #                                                              vid.mp4        # video
 #                                                              path/          # directory
@@ -200,7 +220,7 @@ set -x
 #                                                              'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
 # 
 # Usage - formats:
-#     $ python path/to/detect.py --weights yolov5s.pt                 # PyTorch
+#     $ python3 path/to/detect.py --weights yolov5s.pt                 # PyTorch
 #                                          yolov5s.torchscript        # TorchScript
 #                                          yolov5s.onnx               # ONNX Runtime or OpenCV DNN with --dnn
 #                                          yolov5s.xml                # OpenVINO
@@ -239,7 +259,7 @@ set -x
 #     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
 
 # Performance: GPU about 10~100 times faster than CPU:
-python detect.py --source ${SOURCE_IMAGES} ${GPU_OPTION} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
+python3 detect.py --source ${SOURCE_IMAGES} ${GPU_OPTION} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
 
 set +x
 
@@ -256,3 +276,4 @@ if [ ${DOCKER_RUN} -lt 1 ]; then
     #rm -f ${APP_HOME}/images
     #rm -f ${PROJ_DIR}/customized
 fi
+

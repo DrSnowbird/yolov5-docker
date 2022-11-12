@@ -222,6 +222,7 @@ fabric.properties
 
 
 # More ignored files
+Dockerfile*
 Dockerfile
 Dockerfile_nvidia
 LICENSE
