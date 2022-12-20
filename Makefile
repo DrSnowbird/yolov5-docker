@@ -76,7 +76,13 @@ build-rm:
 	docker build --force-rm --no-cache \
 		-t $(DOCKER_IMAGE):$(VERSION) .
 
-push: build
+build:
+	docker build \
+	    -t $(DOCKER_IMAGE):$(VERSION) .
+	docker images | grep $(DOCKER_IMAGE)
+	@echo ">>> Total Dockder images Build using time in seconds: $$(($$(date +%s)-$(TIME_START))) seconds"
+
+push:
 	docker commit -m "$comment" ${containerID} ${imageTag}:$(VERSION)
 	docker push $(DOCKER_IMAGE):$(VERSION)
 
@@ -135,5 +141,5 @@ status:
 rmi:
 	docker rmi $$(docker images -f dangling=true -q)
 
-exec: up
+exec:
 	docker-compose exec $(DOCKER_NAME) /bin/bash
