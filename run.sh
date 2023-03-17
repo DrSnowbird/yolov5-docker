@@ -942,5 +942,5 @@ esac
 ################################################
 #### ---- reset owner back to the USER ---- ####
 ################################################
-sudo chown -R $USER:$USER ./*
+#sudo chown -R $USER:$USER ./*
 
