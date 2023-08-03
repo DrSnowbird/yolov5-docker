@@ -104,8 +104,7 @@ WORKDIR ${APP_HOME}
 ## Option-2: on-demain yolov5 code
 ## ----------------------------
 ## (optional-not safe: disable GIT SSL VERIFY)
-RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/DrSnowbird/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
-#RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
+RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
 
 RUN if [ -s ${APP_HOME}/requirements.txt ]; then \
         pip install -r ${APP_HOME}/requirements.txt ; \
