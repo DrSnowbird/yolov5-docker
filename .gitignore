@@ -1,5 +1,5 @@
 # Repo-specific GitIgnore ----------------------------------------------------------------------------------------------
-*.webp
+#*.webp
 #*.jpg
 #*.jpeg
 #*.png
@@ -20,6 +20,9 @@
 #*.avi
 #*.data
 #*.json
+images/sample03.webp
+images/sample04.webp
+
 
 !doc/yolov5-fileserver.png
 **_SAVED
@@ -54,7 +57,7 @@ VOC/
 
 # Neural Network weights -----------------------------------------------------------------------------------------------
 *.weights
-*.pt
+# *.pt
 *.pb
 *.onnx
 *.engine
@@ -87,7 +90,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/
 lib64/
 parts/
 sdist/

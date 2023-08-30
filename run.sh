@@ -904,9 +904,11 @@ echo ">>> (final) ENV_VARS=${ENV_VARS}"
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo -e ">>> (final) ENV_VARS=${ENV_VARS}"
 
+sudo chown -R $USER:$USER ./*
+
 MORE_OPTIONS="${MORE_OPTIONS} ${HOSTS_OPTIONS} "
 
-set -x
+# set -x
 case "${BUILD_TYPE}" in
     0)
         #### 0: (default) has neither X11 nor VNC/noVNC container build image type
@@ -942,5 +944,5 @@ esac
 ################################################
 #### ---- reset owner back to the USER ---- ####
 ################################################
-#sudo chown -R $USER:$USER ./*
+sudo chown -R $USER:$USER ./*
 

@@ -205,8 +205,6 @@ echo "----------------------------------------"
 echo "---- 6. DETECT: IMAGES: RUN: setup: ----"
 echo "----------------------------------------"
 
-set -x
-
 # """
 # Run inference on images, videos, directories, streams, etc.
 #
@@ -261,8 +259,6 @@ set -x
 
 # Performance: GPU about 10~100 times faster than CPU:
 python3 detect.py --source ${SOURCE_IMAGES} ${GPU_OPTION} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
-
-set +x
 
 ################################
 #### ---- 8. Clean up: ---- ####

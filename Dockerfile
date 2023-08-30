@@ -104,11 +104,17 @@ WORKDIR ${APP_HOME}
 ## Option-2: on-demain yolov5 code
 ## ----------------------------
 ## (optional-not safe: disable GIT SSL VERIFY)
-RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
-
+#RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && ls -al ${APP_HOME}
+ARG YOLO_VER=${YOLO_VER:-v7.0}
+RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/ultralytics/yolov5.git ${APP_HOME} && \
+    git checkout ${YOLO_VER} && \
+    ls -al ${APP_HOME}
+# HUB https://hub.ultralytics.com ; \
 RUN if [ -s ${APP_HOME}/requirements.txt ]; then \
         pip install -r ${APP_HOME}/requirements.txt ; \
+        pip install ultralytics ; \
     fi; 
+
 #pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116 ; \
 
 ###############################
@@ -138,6 +144,9 @@ RUN if [ -s ${HOME}/requirements.txt ]; then \
         pip install -r ${HOME}/requirements.txt ; \
     fi; 
 
+#### ---- Fixed: in container: sudo: setrlimit(RLIMIT_CORE): Operation not permitted ---- ####
+
+RUN echo "Set disable_coredump false" | sudo tee -a /etc/sudo.conf
 
 # Default run-detect.sh (It will detect the existence of ./customized/run-detect.sh, then run it instead)
 #CMD ["/usr/src/app/run-detect.sh"]
