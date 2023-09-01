@@ -17,7 +17,9 @@ function get_latest_release() {
     LATEST_VERSION=$(basename $tmp1)
     echo "LATEST_VERSION= ${LATEST_VERSION}"
 }
-get_latest_release ${REPO_NAME}
+#if [ ! -s ${APP_HOME}/.git ] || [ ! -s ${APP_HOME}/detect.py ]; then
+#    get_latest_release ${REPO_NAME}
+#fi
 
 ################################################
 #### ---- reset owner back to the USER ---- ####
@@ -78,7 +80,7 @@ YOLO_GIT=${YOLO_GIT:-https://github.com/DrSnowbird/yolov5.git}
 #fi
 if [ ${DOCKER_RUN} -lt 1 ]; then
   
-    if [ ! -s ${APP_HOME}/.git ]; then
+    if [ ! -s ${APP_HOME}/.git ] || [ ! -s ${APP_HOME}/detect.py ]; then
         echo -e "#### >>>>  YOLO_GIT= ${YOLO_GIT}"
         git clone ${YOLO_GIT} ${APP_HOME}
         pip install -r ${APP_HOME}/requirements.txt

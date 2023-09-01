@@ -137,12 +137,12 @@ USER ${USER}
 #############################################
 #############################################
 #### (you customization code here!) #########
-COPY --chown=$USER:$USER run-detect.sh ${APP_HOME}
-
 COPY --chown=$USER:$USER ./requirements.txt ${HOME}
 RUN if [ -s ${HOME}/requirements.txt ]; then \
         pip install -r ${HOME}/requirements.txt ; \
     fi; 
+COPY --chown=$USER:$USER run-detect.sh ${APP_HOME}
+
 
 #### ---- Fixed: in container: sudo: setrlimit(RLIMIT_CORE): Operation not permitted ---- ####
 
