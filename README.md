@@ -1,4 +1,4 @@
-# Yolov5 Docker (Python 3.8 build - CPU default) with Web File Server to store/view Results
+# Yolov5 Docker (Python 3.8 build - GPU/CPU) with Web File Server to store/view Results
 * Simple BASH commands to Build or Run.
 
 
