@@ -68,10 +68,6 @@ debug:
 
 default: build
 
-build:
-	@echo $(DOCKER_NAME) $(DOCKER_IMAGE)
-	docker build -t $(DOCKER_IMAGE):$(VERSION) .
-
 build-rm:
 	docker build --force-rm --no-cache \
 		-t $(DOCKER_IMAGE):$(VERSION) .
