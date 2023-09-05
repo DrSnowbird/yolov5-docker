@@ -110,12 +110,16 @@ up:
 	docker-compose up --remove-orphans -d yolov5-fileserver yolov5-mongo yolov5-mongo-express
 
 up-fileserver:
+	bin/auto-config-all.sh
 	docker-compose up -d yolov5-fileserver
 
 up-mongo:
+	bin/auto-config-all.sh
 	docker-compose up -d yolov5-mongo
+	docker-compose up -d yolov5-mongo-express
 
 up-mongo-express: 
+	bin/auto-config-all.sh
 	docker-compose up -d yolov5-mongo-express
 
 down:
