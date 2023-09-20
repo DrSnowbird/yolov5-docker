@@ -75,7 +75,8 @@ services:
       - ./runs:/home/developer/jetty_base
 
   yolov5-mongo:
-    image: mongo:latest
+    #image: mongo:latest
+    image: "mongo:6.0.1"
     container_name: yolov5-mongo
     restart: always
     environment:
@@ -92,7 +93,8 @@ services:
 
 
   yolov5-mongo-express:
-    image: mongo-express
+    #image: mongo-express
+    image: "mongo-express:1.0.0-alpha.4"
     container_name: yolov5-mongo-express
     restart: always
     ports:
