@@ -260,7 +260,14 @@ echo "----------------------------------------"
 #    parser.add_argument('--vid-stride', type=int, default=1, help='video frame-rate stride')
 
 # Performance: GPU about 10~100 times faster than CPU:
-python3 detect.py --source ${SOURCE_IMAGES} ${GPU_OPTION} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
+DETECT_CODE=${DETECT_CODE:-detect.py}
+python3 ${DETECT_CODE} --source ${SOURCE_IMAGES} ${GPU_OPTION} --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
+
+# CPU
+# python3 ${DETECT_CODE} --source ${SOURCE_IMAGES} --device cpu --weights ${WEIGHTS} --conf-thres ${CONFIDENCE} --save-txt --save-conf
+
+# JSON - not works (to-do: modify detect.py to support JSON)
+#python3 detect.py --source ${SOURCE_IMAGES} --weights ${WEIGHTS} --conf ${CONFIDENCE} --save-json
 
 ################################
 #### ---- 8. Clean up: ---- ####

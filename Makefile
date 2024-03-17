@@ -48,6 +48,9 @@ DOCKER_IMAGE := $(ORGANIZATION)/$(DOCKER_NAME)
 #VOLUME_MAP := "-v $${PWD}/data:/home/developer/data -v $${PWD}/workspace:/home/developer/workspace"
 VOLUME_MAP := 
 
+## -- Network: -- ##
+DOCKER_NETWORK=$(shell echo $${DOCKER_NETWORK:-dev_network})
+
 # -- Local SAVE of image --
 IMAGE_EXPORT_PATH := "$${PWD}/archive"
 
@@ -120,17 +123,22 @@ up-mongo-express:
 
 down:
 	docker-compose down
-	docker ps | grep $(DOCKER_IMAGE)
+	#docker ps | grep $(DOCKER_IMAGE)
 	@echo ">>> Total Dockder images Build using time in seconds: $$(($$(date +%s)-$(TIME_START))) seconds"
 
 down-rm:
 	docker-compose down -v --rmi all --remove-orphans
-	docker ps | grep $(DOCKER_IMAGE)
+	#docker ps | grep $(DOCKER_IMAGE)
 	@echo ">>> Total Dockder images Build using time in seconds: $$(($$(date +%s)-$(TIME_START))) seconds"
 
 ## -- dev/debug -- ##
 run:
-	docker run --name=$(DOCKER_NAME) --restart=$(RESTART_OPTION) $(VOLUME_MAP) $(DOCKER_IMAGE):$(VERSION)
+	@if [ ! -s .env ]; then \
+		bin/auto-config-all.sh; \
+	fi
+	./run.sh
+	docker ps | grep $(DOCKER_IMAGE)
+	#docker run --name=$(DOCKER_NAME) --restart=$(RESTART_OPTION) $(VOLUME_MAP) $(DOCKER_IMAGE):$(VERSION)
 
 stop:
 	docker stop --name=$(DOCKER_NAME)

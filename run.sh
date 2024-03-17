@@ -22,6 +22,13 @@ if [ ! -s .env ]; then
     bin/auto-config-all.sh
     ls -al .env
     echo -e "..."
+else
+    echo -e "=================================================================================="
+    echo -e ">>>> Existing .env found! If you want to overwrite it with new from .env.template:"
+    echo -e ".... Run the command below to auto-generate .env and docker-compose.yml:"
+    echo -e " "
+    echo -e ">>>> ./bin/auto-config-all.sh"
+    echo -e "=================================================================================="
 fi
 
 ###########################################################################
@@ -166,24 +173,28 @@ MORE_OPTIONS=
 
 NVIDIA_DOCKER_AVAILABLE=0
 function check_NVIDIA() {
-    NVIDIA_PCI=`lspci | grep VGA | grep -i NVIDIA`
+    NVIDIA_PCI=`lspci | grep -i NVIDIA`
     if [ "$NVIDIA_PCI" == "" ]; then
         echo "---- No Nvidia PCI found! No Nvidia/GPU physical card(s) available! Use CPU only!"
-    fi
-    which nvidia-smi
-    if [ $? -ne 0 ]; then
-        echo "---- No nvidia-smi command! No Nvidia/GPU driver setup! Use CPU only!"
         GPU_OPTION=
     else
-        nvidia-smi
-        NVIDIA_SMI=`nvidia-smi | grep -i NVIDIA | grep -i CUDA`
-        if [ "$NVIDIA_SMI" == "" ]; then
-            echo "---- No nvidia-smi command not function correctly. Use CPU only!"
+        which nvidia-smi
+        if [ $? -ne 0 ]; then
+            echo "---- No nvidia-smi command! No Nvidia/GPU driver setup! Use CPU only!"
             GPU_OPTION=
         else
-            echo ">>>> Found Nvidia GPU: Use all GPU(s)!"
-            echo "${NVIDIA_SMI}"
-            GPU_OPTION=" --gpus all "
+            NVIDIA_SMI=`nvidia-smi | grep -i NVIDIA | grep -i CUDA`
+            if [ "$NVIDIA_SMI" == "" ]; then
+                echo "---- No nvidia-smi command not function correctly. Use CPU only!"
+                GPU_OPTION=
+            else
+                echo ">>>> Found Nvidia GPU: Use all GPU(s)!"
+                echo "${NVIDIA_SMI}"
+                GPU_OPTION=" --gpus all "
+            fi
+            if [ ${IS_TO_RUN_CPU} -gt 0 ]; then
+                GPU_OPTION=
+            fi
         fi
     fi
 }
@@ -354,7 +365,8 @@ PACKAGE="${imageTag##*/}"
 #########################################################################################################
 ######################## DON'T CHANGE LINES STARTING BELOW (unless you need to) #########################
 #########################################################################################################
-LOCAL_VOLUME_DIR="${baseDataFolder}/${PACKAGE}"
+LOCAL_VOLUME_DIR="${baseDataFolder}/${DOCKER_IMAGE_REPO}"
+echo -e "LOCAL_VOLUME_DIR=${LOCAL_VOLUME_DIR}"
 ## -- Container's internal Volume base DIR
 DOCKER_VOLUME_DIR="/home/developer"
 
@@ -424,7 +436,7 @@ function hasPattern() {
 DEBUG=0
 function debug() {
     if [ $DEBUG -gt 0 ]; then
-        echo $*
+        echo -e "$*"
     fi
 }
 
@@ -462,12 +474,15 @@ function generateVolumeMapping() {
         ## -- Otherwise, go lookup the docker.env as ride-along source for volume definitions
         VOLUMES_LIST=`cat ${DOCKER_ENV_FILE}|grep "^#VOLUMES_LIST= *"|sed "s/[#\"]//g"|cut -d'=' -f2-`
     fi
+    debug "VOLUMES_LIST: $VOLUMES_LIST"
+    
     for vol in $VOLUMES_LIST; do
         echo
-        echo -e "\n>>>>>>>>> $vol"
+        debug "\n>>>>> (VOLUMES_LIST) >>>> $vol"
         hasColon=`echo $vol|grep ":"`
         ## -- allowing change local volume directories --
         if [ "$hasColon" != "" ]; then
+            debug ">>> hasColon ..."
             if [ "`echo $vol|grep 'volume-'`" != "" ]; then
                 cutomizedVolume $vol
             else
@@ -523,6 +538,7 @@ function generateVolumeMapping() {
                 fi
             fi
         else
+            debug ">>> No: hasColon ..."
             volHasDot=`echo $vol|grep "^\./"`
             if [ "$volHasDot" != "" ]; then
                 ## has "./data" alone 

@@ -22,7 +22,7 @@
 #*.json
 images/sample03.webp
 images/sample04.webp
-
+**/*WEB*
 
 !doc/yolov5-fileserver.png
 **_SAVED
