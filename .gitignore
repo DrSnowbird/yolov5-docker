@@ -273,7 +273,7 @@ fabric.properties
 **/*BACKUP*
 **/*(copy)*
 **/workspace*/
-**/*.tmp
+**/*tmp*
 **/*tmp/
 **/certificates/*.crt
 **/demo*.txt
@@ -286,3 +286,7 @@ fabric.properties
 **/weights/
 **/ABFG*.mp4
 **/*save*/
+**/Safe**/
+**/images_**/
+
+

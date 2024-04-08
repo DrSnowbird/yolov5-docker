@@ -149,5 +149,4 @@ COPY --chown=$USER:$USER run-detect.sh ${APP_HOME}
 RUN echo "Set disable_coredump false" | sudo tee -a /etc/sudo.conf
 
 # Default run-detect.sh (It will detect the existence of ./customized/run-detect.sh, then run it instead)
-#CMD ["/usr/src/app/run-detect.sh"]
 CMD ["/home/developer/app/run-detect.sh"]

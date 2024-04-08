@@ -13,7 +13,7 @@ xlwt
 openpyxl
 
 # Flask
-flask
+#flask
 
 # Media (Images/Video meta data accessor)
 tinytag
